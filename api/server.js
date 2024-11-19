@@ -10,7 +10,7 @@ const port = 3001;
 
 const io = new Server(server, {
     cors: {
-        origin: ["http://192.168.29.247:3000"],
+        origin: ["https://chat-app-frontend-bice-nu.vercel.app/"],
         methods: ["GET", "POST"]
     }
 });
