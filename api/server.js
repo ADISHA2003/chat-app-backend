@@ -9,10 +9,10 @@ const server = createServer(app);
 const allowedOrigin = "https://chat-app-frontend-bice-nu.vercel.app";
 
 app.use(cors({
-    origin: allowedOrigin, // Allow specific frontend URL
+    origin: allowedOrigin, // Allow frontend URL
     methods: ['GET', 'POST'], // Allow specific HTTP methods
     allowedHeaders: ['Content-Type'], // Allow Content-Type header
-    credentials: true // Allow credentials if needed (cookies, authorization headers)
+    credentials: true // Allow credentials (cookies or authorization headers)
 }));
 
 // Handle CORS preflight requests explicitly
@@ -26,9 +26,9 @@ app.options('*', (req, res) => {
 // Socket.IO Setup
 const io = new Server(server, {
     cors: {
-        origin: allowedOrigin,
-        methods: ['GET', 'POST'],
-        credentials: true // Allow credentials if needed
+        origin: allowedOrigin, // Allow frontend URL
+        methods: ['GET', 'POST'], // Allow HTTP methods
+        credentials: true // Allow credentials (cookies or authorization headers)
     }
 });
 
