@@ -1,0 +1,16 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend for react-chat-app",
+  "main": "server.js",
+  "scripts": {
+    "test": "node api/server.js",
+    "start": "node api/server.js"
+  },
+  "author": "aditya sharma",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1",
+    "socket.io": "^4.8.1"
+  }
+}
