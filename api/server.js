@@ -6,11 +6,11 @@ const cors = require('cors');
 app.use(cors());
 
 const { Server } = require('socket.io');
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 const io = new Server(server, {
     cors: {
-        origin: ["https://chat-app-frontend-bice-nu.vercel.app/"],
+        origin: ["https://chat-app-frontend-bice-nu.vercel.app"],
         methods: ["GET", "POST"]
     }
 });
