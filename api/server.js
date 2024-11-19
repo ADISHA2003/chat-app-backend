@@ -1,27 +1,38 @@
 const express = require('express');
-const app = express();
 const { createServer } = require('http');
-const server = createServer(app);
-const cors = require('cors');
 const { Server } = require('socket.io');
-const port = process.env.PORT || 3001;
+const cors = require('cors');
+const app = express();
+const server = createServer(app);
 
-// CORS Configuration
+// CORS Setup
+const allowedOrigin = "https://chat-app-frontend-bice-nu.vercel.app";
+
 app.use(cors({
-    origin: 'https://chat-app-frontend-bice-nu.vercel.app', // Allow your frontend domain
-    methods: ['GET', 'POST', 'OPTIONS'], // Allow specific HTTP methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers if needed
+    origin: allowedOrigin, // Allow specific frontend URL
+    methods: ['GET', 'POST'], // Allow specific HTTP methods
+    allowedHeaders: ['Content-Type'], // Allow Content-Type header
+    credentials: true // Allow credentials if needed (cookies, authorization headers)
 }));
 
-// Set up socket.io with CORS
+// Handle CORS preflight requests explicitly
+app.options('*', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.sendStatus(200); // Send successful preflight response
+});
+
+// Socket.IO Setup
 const io = new Server(server, {
     cors: {
-        origin: 'https://chat-app-frontend-bice-nu.vercel.app', // Allow your frontend domain
-        methods: ['GET', 'POST']
+        origin: allowedOrigin,
+        methods: ['GET', 'POST'],
+        credentials: true // Allow credentials if needed
     }
 });
 
-// Handle socket events
+// Handle socket connection
 io.on('connection', (socket) => {
     console.log(`A user connected: ${socket.id}`);
 
@@ -47,6 +58,7 @@ io.on('connection', (socket) => {
 });
 
 // Start the server
+const port = process.env.PORT || 3001;
 server.listen(port, () => {
     console.log(`Server is listening on http://localhost:${port}`);
 });
